@@ -21,19 +21,27 @@ final class ContactoController extends AbstractController
     ];     
 
 
-//----------------------------------------------------------------metodo ver contacto
+
 
 
 //----------------------------------------------------------------
- #[Route('/contacto/{codigo?1}', name: 'ficha_contacto')]
-    public function ficha($codigo): Response {
-       $contacto = ($this->contactos[$codigo]??null);
 
-       if($contacto){
 
-               return $this->render('ficha_contacto.html.twig',["contacto" => $contacto ]);
+#[Route('/contacto/{codigo}', name: 'ficha_contacto')]
 
-       }
-       return new Response("<html><body>Contacto $codigo no encontrado</body>");
+public function ficha($codigo): Response{
+
+    //Si no existe el elemento con dicha clave devolvemos null
+
+    $resultado = ($this->contactos[$codigo] ?? null);
+
+
+
+    return $this->render('ficha_contacto.html.twig', [
+
+    'contacto' => $resultado
+
+    ]);
+
 }
 }
