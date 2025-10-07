@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Contacto;
 
 final class ContactoController extends AbstractController
 {
@@ -22,6 +23,24 @@ final class ContactoController extends AbstractController
 
 
 
+#[Route('/contacto/insertar', name: 'insertar_contacto')]
+public function insertar(ManagerRegistry $doctrine)
+{
+    $entityManager = $doctrine->getManager();
+    foreach($this->contactos as $c){
+        $contacto = new Contacto();
+        $contacto->setNombre($c["nombre"]);
+        $contacto->setTelefono($c["telefono"]);
+        $contacto->setEmail($c["email"]);
+        $entityManager->persist($contacto);
+    }try {
+        // Sólo se necesita realizar flush una vez y confirmará todas las operaciones pendientes
+        $entityManager->flush();
+        return new Response("Contactos insertados");
+    } catch (\Exception $e) {
+        return new Response("Error insertando objetos");
+    }
+}
 
 
 //----------------------------------------------------------------
@@ -44,4 +63,13 @@ public function ficha($codigo): Response{
     ]);
 
 }
+
+
+
+
+
+
+
+
 }
+
