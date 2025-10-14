@@ -9,6 +9,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Contacto;
 
+
+
+
 final class ContactoController extends AbstractController
 {
 //----------------------------------------------------------------------base datos
@@ -48,17 +51,16 @@ public function insertar(ManagerRegistry $doctrine)
 
 #[Route('/contacto/{codigo}', name: 'ficha_contacto')]
 
-public function ficha($codigo): Response{
+public function ficha(ManagerRegistry $doctrine, $codigo): Response{
 
     //Si no existe el elemento con dicha clave devolvemos null
 
-    $resultado = ($this->contactos[$codigo] ?? null);
-
-
-
+    
+    $repositorio = $doctrine->getRepository(Contacto::class);
+    $contacto = $repositorio->find($codigo);
     return $this->render('ficha_contacto.html.twig', [
 
-    'contacto' => $resultado
+    'contacto' => $contacto
 
     ]);
 
