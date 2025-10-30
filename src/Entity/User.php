@@ -49,6 +49,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    #[ORM\Column(length: 100)]
+private ?string $name = null;
+
+public function getName(): ?string
+{
+    return $this->name;
+}
+
+public function setName(string $name): static
+{
+    $this->name = $name;
+
+    return $this;
+}
+
 
     /**
      * A visual identifier that represents this user.
