@@ -25,7 +25,20 @@ final class ContactoController extends AbstractController
     ];     
 
 
+#[Route('/contacto/lista_contactos', name: 'lista_contactos')]
+public function lista(ManagerRegistry $doctrine): Response {
+    // Verifica si el usuario está logueado
+ //  if (!$this->isGranted('ROLE_USER')) {
+       // return $this->redirectToRoute('inicio');
+  //  }
 
+    $repositorio = $doctrine->getRepository(Contacto::class);
+    $contactos = $repositorio->findAll();
+
+    return $this->render('lista_contactos.html.twig', [
+        'contactos' => $contactos
+    ]);
+}
 //-------------------------------------------------------------------
 #[Route('/contacto/editar/{codigo}', name: 'editar', requirements:["codigo"=>"\d+"])]
 public function editar(ManagerRegistry $doctrine, Request $request, int $codigo) {
@@ -171,9 +184,9 @@ public function update(ManagerRegistry $doctrine, $id, $nombre):Response{
 //---------------------------------------------------------------------
 
 
-/**
- * @Route("/contacto/delete/{id}", name="eliminar_contacto")
- */
+
+#[Route("/contacto/delete/{id}", name:"eliminar_contacto")]
+ 
 public function delete(ManagerRegistry $doctrine, $id): Response {
     $entityManager = $doctrine->getManager();
      $repositorio = $doctrine->getRepository(Contacto::class);

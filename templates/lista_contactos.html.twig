@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de contactos{% endblock %}
+
+{% block body %}
+<h1>📇 Lista de contactos</h1>
+<ul>
+    {% for contacto in contactos %}
+        <li>
+            <strong>{{ contacto.nombre }}</strong> -
+            <a href="{{ path('ficha_contacto', {codigo: contacto.id}) }}">Ver ficha</a> |
+            <a href="{{ path('editar', {codigo: contacto.id}) }}">Editar</a> |
+            <a href="{{ path('eliminar_contacto', {id: contacto.id}) }}">Eliminar</a>
+        </li>
+    {% else %}
+        <li>No hay contactos registrados.</li>
+    {% endfor %}
+</ul>
+
+<a href="{{ path('nuevo') }}">➕ Añadir nuevo contacto</a>
+{% endblock %}
